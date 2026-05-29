@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payne & Company — Commercial Real Estate Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #152231;
+    --navy-mid:   #1e3245;
+    --navy-deep:  #0e1a26;
+    --forest:     #3D6B57;
+    --forest-mid: #2C4A3A;
+    --sage:       #7BA898;
+    --gilt:       #C4AA7A;
+    --gilt-light: #DDC99A;
+    --parchment:  #F5F2EA;
+    --cream:      #EDE8D8;
+    --text-muted: rgba(237,232,216,0.55);
+    --text-dim:   rgba(237,232,216,0.35);
+    --border:     rgba(196,170,122,0.15);
+    --border-dim: rgba(237,232,216,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035; pointer-events: none; z-index: 0;
+  }
+
+  /* ── NAVIGATION ── */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+    border-bottom: 1px solid transparent;
+  }
+  #nav.scrolled {
+    background: rgba(14,26,38,0.92);
+    backdrop-filter: blur(16px);
+    border-color: var(--border-dim);
+  }
+  .nav-logo { display: flex; flex-direction: column; text-decoration: none; gap: 2px; }
+  .nav-logo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--cream); text-transform: uppercase;
+  }
+  .nav-logo-sub {
+    font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gilt); font-weight: 400;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gilt-light); }
+  .nav-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gilt); opacity: 0.5; }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; padding: 0 3rem;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, #1e3a52 0%, var(--navy) 65%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(45deg, rgba(196,170,122,0.04) 1px, transparent 1px),
+      linear-gradient(-45deg, rgba(196,170,122,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-diamond {
+    position: absolute; right: 8%; top: 50%; transform: translateY(-50%) rotate(45deg);
+    width: 420px; height: 420px;
+    border: 1px solid rgba(196,170,122,0.1); z-index: 0;
+  }
+  .hero-diamond::before {
+    content: ''; position: absolute; inset: 24px;
+    border: 1px solid rgba(196,170,122,0.07);
+  }
+  .hero-diamond::after {
+    content: ''; position: absolute; inset: 52px;
+    border: 1px solid rgba(196,170,122,0.04);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 720px; }
+  .hero-eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gilt); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--gilt);
+  }
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 600; line-height: 1.05;
+    color: var(--cream); margin-bottom: 1.75rem;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-headline em { font-style: italic; color: var(--gilt-light); }
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-style: italic;
+    color: var(--gilt-light); margin-bottom: 1.25rem;
+    opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+    letter-spacing: 0.02em;
+  }
+  .hero-body {
+    font-size: 1rem; line-height: 1.75; color: var(--text-muted);
+    max-width: 520px; margin-bottom: 2.75rem;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 1.25rem;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-gilt {
+    display: inline-block; padding: 0.85rem 2rem;
+    background: var(--gilt); color: var(--navy-deep);
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-gilt:hover { background: var(--gilt-light); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block; padding: 0.85rem 2rem;
+    border: 1px solid rgba(196,170,122,0.3); color: var(--text-muted);
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 400; text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--gilt); color: var(--gilt-light); }
+  .hero-stats {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+    display: flex; border-top: 1px solid var(--border-dim);
+    opacity: 0; animation: fadeIn 0.8s 1.2s forwards;
+  }
+  .hero-stat {
+    flex: 1; padding: 1.5rem 2rem;
+    border-right: 1px solid var(--border-dim);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem; font-weight: 600; color: var(--gilt); line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── SHARED ── */
+  section { position: relative; z-index: 1; }
+  .section-label {
+    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gilt); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--gilt);
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 600; line-height: 1.15; color: var(--cream);
+  }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s, transform 0.7s; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── PROCESS ── */
+  #process {
+    padding: 7rem 3rem;
+    background: var(--navy-deep);
+    border-top: 1px solid var(--border-dim);
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .process-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .process-intro {
+    max-width: 380px; font-size: 0.95rem; line-height: 1.8; color: var(--text-muted);
+  }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border-dim);
+  }
+  .process-card {
+    background: var(--navy-deep); padding: 2.75rem 2.25rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+    transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .process-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--gilt); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .process-card:hover { background: #182e42; }
+  .process-card:hover::before { transform: scaleX(1); }
+  .process-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; color: var(--gilt); letter-spacing: 0.12em;
+  }
+  .process-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem; font-weight: 600; color: var(--cream);
+  }
+  .process-body { font-size: 0.88rem; line-height: 1.75; color: var(--text-muted); }
+  .process-detail {
+    margin-top: auto; padding-top: 1.5rem;
+    border-top: 1px solid var(--border-dim);
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gilt); opacity: 0.7;
+  }
+
+  /* ── HOLDINGS ── */
+  #holdings { padding: 7rem 3rem; }
+  .holdings-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .holdings-link {
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gilt); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem; transition: gap 0.2s;
+  }
+  .holdings-link:hover { gap: 0.85rem; }
+  .holdings-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .holding-card {
+    border: 1px solid var(--border-dim); padding: 2rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .holding-card:hover { border-color: rgba(196,170,122,0.3); transform: translateY(-3px); }
+  .holding-type {
+    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gilt); opacity: 0.8;
+  }
+  .holding-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; color: var(--cream);
+  }
+  .holding-address { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+  .holding-tag {
+    display: inline-block; padding: 0.25rem 0.75rem;
+    background: rgba(61,107,87,0.2); border: 1px solid rgba(61,107,87,0.3);
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--sage); margin-top: auto;
+  }
+
+  /* ── PHILOSOPHY / STATEMENT ── */
+  #statement {
+    padding: 7rem 3rem;
+    background: var(--navy-deep);
+    border-top: 1px solid var(--border-dim);
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .statement-inner {
+    max-width: 900px; margin: 0 auto; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+  }
+  .statement-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    font-weight: 400; font-style: italic;
+    line-height: 1.4; color: var(--cream);
+  }
+  .statement-quote strong { font-style: normal; font-weight: 600; color: var(--gilt-light); }
+  .statement-body {
+    font-size: 0.93rem; line-height: 1.85; color: var(--text-muted); max-width: 580px;
+  }
+  .statement-divider { width: 48px; height: 1px; background: var(--gilt); opacity: 0.5; }
+
+  /* ── WHAT WE LOOK FOR ── */
+  #criteria { padding: 7rem 3rem; }
+  .criteria-header { margin-bottom: 4rem; }
+  .criteria-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border-dim);
+  }
+  .criteria-card {
+    background: var(--navy); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: background 0.3s;
+  }
+  .criteria-card:hover { background: #182e42; }
+  .criteria-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(196,170,122,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gilt); font-size: 0.9rem;
+  }
+  .criteria-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--cream);
+  }
+  .criteria-body { font-size: 0.83rem; line-height: 1.7; color: var(--text-muted); }
+
+  /* ── CTA ── */
+  #cta {
+    padding: 7rem 3rem;
+    background: var(--forest-mid);
+    border-top: 1px solid rgba(61,107,87,0.4);
+    text-align: center;
+  }
+  .cta-inner {
+    max-width: 620px; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+  }
+  .cta-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; color: var(--cream);
+  }
+  .cta-body { font-size: 0.93rem; line-height: 1.8; color: rgba(237,232,216,0.65); }
+  .cta-actions { display: flex; gap: 1rem; align-items: center; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 3rem; background: var(--navy-deep);
+    border-top: 1px solid var(--border-dim);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cream);
+  }
+  .footer-pillars {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .footer-pillar { color: var(--text-muted); }
+  .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gilt); opacity: 0.3; }
+  .footer-right { font-size: 0.65rem; letter-spacing: 0.12em; color: var(--text-dim); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  @media (max-width: 900px) {
+    #nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 0 1.5rem; }
+    .hero-diamond { display: none; }
+    .hero-stats { flex-wrap: wrap; }
+    .hero-stat { min-width: 50%; }
+    #process, #holdings, #statement, #criteria, #cta { padding: 4rem 1.5rem; }
+    .process-header, .holdings-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .process-grid, .holdings-grid { grid-template-columns: 1fr; }
+    .criteria-grid { grid-template-columns: repeat(2, 1fr); }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .footer-pillars { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-name">Payne &amp; Company</span>
+    <span class="nav-logo-sub">Commercial Real Estate Development</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#process">Our Process</a></li>
+    <li class="nav-dot"></li>
+    <li><a href="#holdings">Holdings</a></li>
+    <li class="nav-dot"></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li class="nav-dot"></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-diamond"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Payne &amp; Company, LLC — Colorado Springs</div>
+    <h1 class="hero-headline">
+      We see <em>value</em><br>where others see <em>vacancy.</em>
+    </h1>
+    <p class="hero-tagline">"We See Value Where Others See Vacancy."</p>
+    <p class="hero-body">
+      A family-owned commercial real estate development company with 30+ years in the Colorado Springs market.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-gilt">Get In Touch</a>
+      <a href="portfolio.html" class="btn-ghost">View Portfolio</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">30+</div>
+      <div class="hero-stat-label">Years In Market</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">7+</div>
+      <div class="hero-stat-label">Properties Held</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Operating Entities</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Family Owned</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR PROCESS -->
+<section id="process">
+  <div class="process-header">
+    <div>
+      <div class="section-label reveal">How We Work</div>
+      <h2 class="section-heading reveal reveal-delay-1">Acquire. Restore.<br>Hold for the long term.</h2>
+    </div>
+    <p class="process-intro reveal reveal-delay-2">
+      We don't flip. We find commercial properties that have been overlooked, underfunded, or left behind — and we bring them back. Every project is a long-term commitment to the asset and the community it sits in.
+    </p>
+  </div>
+  <div class="process-grid">
+    <div class="process-card reveal">
+      <div class="process-num">01</div>
+      <div class="process-title">Acquisition</div>
+      <p class="process-body">We identify aged commercial assets in the Colorado Springs market — vacant lots, distressed buildings, underutilized mixed-use — where others see a problem and we see potential.</p>
+      <div class="process-detail">Off-Market · Direct Negotiation · Value-Add</div>
+    </div>
+    <div class="process-card reveal reveal-delay-1">
+      <div class="process-num">02</div>
+      <div class="process-title">Restoration</div>
+      <p class="process-body">From ground-up warehouse builds to full commercial rehabs, we invest the capital and the time to bring properties back to their best and highest use — without cutting corners.</p>
+      <div class="process-detail">Rehab · Ground-Up · Adaptive Reuse</div>
+    </div>
+    <div class="process-card reveal reveal-delay-2">
+      <div class="process-num">03</div>
+      <div class="process-title">Holdings</div>
+      <p class="process-body">We hold what we build. Our portfolio is a long-term asset base managed in-house — leased, maintained, and operated by the same family that acquired and restored it.</p>
+      <div class="process-detail">Long-Term Hold · In-House Management</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED HOLDINGS -->
+<section id="holdings">
+  <div class="holdings-header">
+    <div>
+      <div class="section-label reveal">Portfolio</div>
+      <h2 class="section-heading reveal reveal-delay-1">Featured Holdings</h2>
+    </div>
+    <a href="portfolio.html" class="holdings-link reveal reveal-delay-2">View Full Portfolio →</a>
+  </div>
+  </section>
+
+<!-- BRAND STATEMENT -->
+<section id="statement">
+  <div class="statement-inner">
+    <div class="statement-divider reveal"></div>
+    <blockquote class="statement-quote reveal reveal-delay-1">
+      "Forgotten properties don't need to stay that way.<br>They need <strong>the right owner.</strong>"
+    </blockquote>
+    <p class="statement-body reveal reveal-delay-2">
+      Payne &amp; Company has operated in the Colorado Springs market for over 30 years. We are a family business in the truest sense — patient capital, hands-on management, and a long-term view on every asset we touch. We don't answer to investors. We answer to the communities our properties sit in.
+    </p>
+    <div class="statement-divider reveal reveal-delay-3"></div>
+  </div>
+</section>
+
+<!-- WHAT WE LOOK FOR -->
+<section id="criteria">
+  <div class="criteria-header">
+    <div class="section-label reveal">What We Acquire</div>
+    <h2 class="section-heading reveal reveal-delay-1">We look for properties others overlook.</h2>
+  </div>
+  <div class="criteria-grid">
+    <div class="criteria-card reveal">
+      <div class="criteria-icon">⬡</div>
+      <div class="criteria-title">Aged Commercial</div>
+      <p class="criteria-body">Buildings with good bones but years of deferred maintenance. We see the structure, not the surface — and we invest to bring it back.</p>
+    </div>
+    <div class="criteria-card reveal reveal-delay-1">
+      <div class="criteria-icon">⬡</div>
+      <div class="criteria-title">Vacant & Distressed</div>
+      <p class="criteria-body">Long-vacant storefronts, underutilized lots, and properties with title or structural complexity that most buyers walk away from.</p>
+    </div>
+    <div class="criteria-card reveal reveal-delay-2">
+      <div class="criteria-icon">⬡</div>
+      <div class="criteria-title">Mixed-Use Opportunity</div>
+      <p class="criteria-body">Properties with the potential for combined commercial and residential use — maximizing value while serving more of the community.</p>
+    </div>
+    <div class="criteria-card reveal reveal-delay-3">
+      <div class="criteria-icon">⬡</div>
+      <div class="criteria-title">Off-Market Deals</div>
+      <p class="criteria-body">We prefer direct conversations with owners over listed transactions. If you have a property you're looking to move, we'd like to talk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="section-label reveal" style="justify-content:center;">Let's Talk</div>
+    <h2 class="cta-heading reveal reveal-delay-1">Have a property worth a second look?</h2>
+    <p class="cta-body reveal reveal-delay-2">
+      Whether you're an owner ready to sell, a tenant looking for space, or a partner with a deal in mind — we'd like to hear from you.
+    </p>
+    <div class="cta-actions reveal reveal-delay-3">
+      <a href="mailto:jacob@payneandcompany.net" class="btn-gilt">Get In Touch</a>
+      <a href="portfolio.html" class="btn-ghost" style="border-color:rgba(237,232,216,0.2);color:rgba(237,232,216,0.6);">View Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Payne &amp; Company</div>
+  <div class="footer-pillars">
+    <span class="footer-pillar">Acquisition</span>
+    <span class="footer-dot"></span>
+    <span class="footer-pillar">Restoration</span>
+    <span class="footer-dot"></span>
+    <span class="footer-pillar">Holdings</span>
+  </div>
+  <div class="footer-right">Colorado Springs, CO &nbsp;·&nbsp; payneandcompany.net &nbsp;·&nbsp; © 2026</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
