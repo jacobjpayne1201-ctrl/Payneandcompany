@@ -329,6 +329,30 @@
   }
   .criteria-body { font-size: 0.83rem; line-height: 1.7; color: var(--text-muted); }
 
+  /* ── SCHEDULE ── */
+  #schedule {
+    padding: 7rem 3rem;
+    background: var(--navy-deep);
+    border-top: 1px solid var(--border-dim);
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .schedule-inner {
+    max-width: 900px; margin: 0 auto;
+  }
+  .schedule-header {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .schedule-body {
+    font-size: 0.93rem; line-height: 1.8;
+    color: rgba(237,232,216,0.65);
+    max-width: 480px; margin: 1rem auto 0;
+  }
+  #cal-embed {
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 600px;
+  }
+
   /* ── CTA ── */
   #cta {
     padding: 7rem 3rem;
@@ -345,7 +369,7 @@
     font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 600; color: var(--cream);
   }
   .cta-body { font-size: 0.93rem; line-height: 1.8; color: rgba(237,232,216,0.65); }
-  .cta-actions { display: flex; gap: 1rem; align-items: center; }
+  .cta-actions { display: flex; gap: 1rem; align-items: center; justify-content: center; }
 
   /* ── FOOTER ── */
   footer {
@@ -402,9 +426,9 @@
     <li class="nav-dot"></li>
     <li><a href="#holdings">Holdings</a></li>
     <li class="nav-dot"></li>
-    <li><a href="portfolio.html">Portfolio</a></li>
-    <li class="nav-dot"></li>
     <li><a href="#cta">Contact</a></li>
+    <li class="nav-dot"></li>
+    <li><a href="#schedule">Schedule</a></li>
   </ul>
 </nav>
 
@@ -423,7 +447,6 @@
     </p>
     <div class="hero-actions">
       <a href="#cta" class="btn-gilt">Get In Touch</a>
-      <a href="portfolio.html" class="btn-ghost">View Portfolio</a>
     </div>
   </div>
   <div class="hero-stats">
@@ -479,17 +502,6 @@
   </div>
 </section>
 
-<!-- FEATURED HOLDINGS -->
-<section id="holdings">
-  <div class="holdings-header">
-    <div>
-      <div class="section-label reveal">Portfolio</div>
-      <h2 class="section-heading reveal reveal-delay-1">Featured Holdings</h2>
-    </div>
-    <a href="portfolio.html" class="holdings-link reveal reveal-delay-2">View Full Portfolio →</a>
-  </div>
-  </section>
-
 <!-- BRAND STATEMENT -->
 <section id="statement">
   <div class="statement-inner">
@@ -534,6 +546,22 @@
   </div>
 </section>
 
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="schedule-inner">
+    <div class="schedule-header">
+      <div class="section-label reveal" style="justify-content:center;">Book a Meeting</div>
+      <h2 class="section-heading reveal reveal-delay-1" style="text-align:center;">Let's find time to talk.</h2>
+      <p class="schedule-body reveal reveal-delay-2">
+        Choose a time that works for you — available by phone, Google Meet, or in person at our Colorado Springs office.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-3" style="text-align:center;">
+      <a href="https://cal.com/jacob-payne-35dh7w" target="_blank" class="btn-gilt">Schedule a Meeting</a>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section id="cta">
   <div class="cta-inner">
@@ -544,7 +572,6 @@
     </p>
     <div class="cta-actions reveal reveal-delay-3">
       <a href="mailto:jacob@payneandcompany.net" class="btn-gilt">Get In Touch</a>
-      <a href="portfolio.html" class="btn-ghost" style="border-color:rgba(237,232,216,0.2);color:rgba(237,232,216,0.6);">View Portfolio</a>
     </div>
   </div>
 </section>
