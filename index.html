@@ -137,7 +137,7 @@
     opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
   }
   .hero-actions {
-    display: flex; align-items: center; gap: 1.25rem;
+    display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
     opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
   }
   .btn-gilt {
@@ -244,41 +244,94 @@
     color: var(--gilt); opacity: 0.7;
   }
 
-  /* ── HOLDINGS ── */
-  #holdings { padding: 7rem 3rem; }
-  .holdings-header {
+  /* ── AVAILABLE PROPERTIES ── */
+  #available { padding: 7rem 3rem; }
+  .available-header {
     display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 4rem;
+    margin-bottom: 3.5rem;
   }
-  .holdings-link {
-    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gilt); text-decoration: none;
-    display: flex; align-items: center; gap: 0.5rem; transition: gap 0.2s;
+  .available-intro {
+    max-width: 380px; font-size: 0.95rem; line-height: 1.8; color: var(--text-muted);
   }
-  .holdings-link:hover { gap: 0.85rem; }
-  .holdings-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  .listing {
+    display: grid; grid-template-columns: 1.15fr 0.85fr;
+    border: 1px solid var(--border-dim);
+    background: var(--navy);
   }
-  .holding-card {
-    border: 1px solid var(--border-dim); padding: 2rem;
-    display: flex; flex-direction: column; gap: 1rem;
-    transition: border-color 0.3s, transform 0.3s;
+  .listing + .listing { margin-top: 2.5rem; }
+  .listing-gallery {
+    display: flex; flex-direction: column; gap: 1px;
+    background: var(--border-dim);
   }
-  .holding-card:hover { border-color: rgba(196,170,122,0.3); transform: translateY(-3px); }
-  .holding-type {
-    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--gilt); opacity: 0.8;
+  .listing-figure {
+    position: relative; background: var(--navy-deep);
+    aspect-ratio: 4 / 3; overflow: hidden;
   }
-  .holding-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 600; color: var(--cream);
+  .listing-figure img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
-  .holding-address { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
-  .holding-tag {
-    display: inline-block; padding: 0.25rem 0.75rem;
-    background: rgba(61,107,87,0.2); border: 1px solid rgba(61,107,87,0.3);
+  .listing-thumbs {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border-dim);
+  }
+  .listing-thumb {
+    padding: 0; border: none; cursor: pointer;
+    background: var(--navy-deep); aspect-ratio: 4 / 3;
+    overflow: hidden; position: relative;
+  }
+  .listing-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    opacity: 0.55; transition: opacity 0.25s;
+  }
+  .listing-thumb:hover img, .listing-thumb:focus-visible img { opacity: 0.85; }
+  .listing-thumb[aria-current="true"] img { opacity: 1; }
+  .listing-thumb[aria-current="true"]::after {
+    content: ''; position: absolute; inset: 0;
+    border: 2px solid var(--gilt);
+  }
+  .listing-thumb:focus-visible { outline: 2px solid var(--gilt-light); outline-offset: -2px; }
+  .listing-detail {
+    padding: 2.75rem 2.5rem;
+    border-left: 1px solid var(--border-dim);
+    display: flex; flex-direction: column; gap: 1.1rem;
+  }
+  .listing-status {
+    align-self: flex-start;
+    padding: 0.25rem 0.75rem;
+    background: rgba(61,107,87,0.2); border: 1px solid rgba(61,107,87,0.35);
     font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--sage); margin-top: auto;
+    color: var(--sage);
+  }
+  .listing-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 600; line-height: 1.15; color: var(--cream);
+  }
+  .listing-city {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gilt); opacity: 0.85; margin-top: -0.6rem;
+  }
+  .listing-body { font-size: 0.88rem; line-height: 1.8; color: var(--text-muted); }
+  .listing-specs { margin-top: 0.5rem; }
+  .listing-spec {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 1.5rem; padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .listing-spec:first-child { border-top: 1px solid var(--border-dim); }
+  .listing-spec dt {
+    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim); white-space: nowrap;
+  }
+  .listing-spec dd {
+    font-size: 0.85rem; color: var(--cream); text-align: right; line-height: 1.5;
+  }
+  .listing-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; font-style: italic; color: var(--gilt-light);
+  }
+  .listing-actions {
+    margin-top: auto; padding-top: 1.5rem;
+    display: flex; gap: 1rem; flex-wrap: wrap;
   }
 
   /* ── PHILOSOPHY / STATEMENT ── */
@@ -397,6 +450,14 @@
   }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-eyebrow, .hero-headline, .hero-tagline, .hero-body, .hero-actions, .hero-stats {
+      opacity: 1; animation: none;
+    }
+  }
+
   @media (max-width: 900px) {
     #nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -404,10 +465,12 @@
     .hero-diamond { display: none; }
     .hero-stats { flex-wrap: wrap; }
     .hero-stat { min-width: 50%; }
-    #process, #holdings, #statement, #criteria, #cta { padding: 4rem 1.5rem; }
-    .process-header, .holdings-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .process-grid, .holdings-grid { grid-template-columns: 1fr; }
+    #process, #available, #statement, #criteria, #cta { padding: 4rem 1.5rem; }
+    .process-header, .available-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .process-grid { grid-template-columns: 1fr; }
     .criteria-grid { grid-template-columns: repeat(2, 1fr); }
+    .listing { grid-template-columns: 1fr; }
+    .listing-detail { border-left: none; border-top: 1px solid var(--border-dim); padding: 2rem 1.5rem; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
     .footer-pillars { justify-content: center; }
   }
@@ -424,7 +487,7 @@
   <ul class="nav-links">
     <li><a href="#process">Our Process</a></li>
     <li class="nav-dot"></li>
-    <li><a href="#holdings">Holdings</a></li>
+    <li><a href="#available">Available Properties</a></li>
     <li class="nav-dot"></li>
     <li><a href="#cta">Contact</a></li>
     <li class="nav-dot"></li>
@@ -447,6 +510,7 @@
     </p>
     <div class="hero-actions">
       <a href="#cta" class="btn-gilt">Get In Touch</a>
+      <a href="#available" class="btn-ghost">Available Properties</a>
     </div>
   </div>
   <div class="hero-stats">
@@ -500,6 +564,96 @@
       <div class="process-detail">Long-Term Hold · In-House Management</div>
     </div>
   </div>
+</section>
+
+<!-- AVAILABLE PROPERTIES -->
+<section id="available">
+  <div class="available-header">
+    <div>
+      <div class="section-label reveal">Now Leasing</div>
+      <h2 class="section-heading reveal reveal-delay-1">Available properties.</h2>
+    </div>
+    <p class="available-intro reveal reveal-delay-2">
+      Space we own and manage ourselves. You deal with the owner directly — no listing agent in between, and terms we can talk through the same day you call.
+    </p>
+  </div>
+
+  <article class="listing reveal reveal-delay-1">
+    <div class="listing-gallery">
+      <figure class="listing-figure">
+        <img id="listing-2105-main"
+             src="images/2105-tgap-exterior-front.jpg"
+             alt="Front exterior of the retail building at 2105 Templeton Gap Road, Colorado Springs">
+      </figure>
+      <div class="listing-thumbs" data-gallery="listing-2105-main">
+        <button type="button" class="listing-thumb" aria-current="true" aria-label="Front exterior">
+          <img src="images/2105-tgap-exterior-front.jpg" alt="Front exterior">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Main retail floor">
+          <img src="images/2105-tgap-interior-main.jpg" alt="Main retail floor">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Open interior">
+          <img src="images/2105-tgap-interior-open.jpg" alt="Open interior">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Front display room">
+          <img src="images/2105-tgap-front-room.jpg" alt="Front display room">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Private office">
+          <img src="images/2105-tgap-office.jpg" alt="Private office">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Back service area">
+          <img src="images/2105-tgap-back-room.jpg" alt="Back service area">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Restroom">
+          <img src="images/2105-tgap-restroom.jpg" alt="Restroom">
+        </button>
+        <button type="button" class="listing-thumb" aria-label="Side exterior and parking">
+          <img src="images/2105-tgap-exterior-side.jpg" alt="Side exterior and parking">
+        </button>
+      </div>
+    </div>
+
+    <div class="listing-detail">
+      <div class="listing-status">Available Now</div>
+      <h3 class="listing-address">2105 Templeton Gap Road</h3>
+      <div class="listing-city">Colorado Springs, Colorado</div>
+      <p class="listing-body">
+        A freestanding retail building with its own parking, sitting on one of the busier east-side corridors in town. Open main floor with stained concrete and track lighting, a front room with arched windows, a private office, a back service area, and a restroom. Ready for a tenant to move in and finish to their own use.
+      </p>
+      <dl class="listing-specs">
+        <div class="listing-spec">
+          <dt>Building</dt>
+          <dd>1,296 SF (per assessor)</dd>
+        </div>
+        <div class="listing-spec">
+          <dt>Rent</dt>
+          <dd>$2,000 / month</dd>
+        </div>
+        <div class="listing-spec">
+          <dt>Lease Type</dt>
+          <dd>NNN</dd>
+        </div>
+        <div class="listing-spec">
+          <dt>Best Use</dt>
+          <dd>Retail, office, or service</dd>
+        </div>
+        <div class="listing-spec">
+          <dt>Parking</dt>
+          <dd>Dedicated off-street</dd>
+        </div>
+        <div class="listing-spec">
+          <dt>Availability</dt>
+          <dd>Immediate</dd>
+        </div>
+      </dl>
+      <p class="listing-note">Year one taxes and insurance included in the $2,000.</p>
+      <div class="listing-actions">
+        <a class="btn-gilt"
+           href="mailto:jacob@payneandcompany.net?subject=2105%20Templeton%20Gap%20Rd%20%E2%80%94%20Leasing%20Inquiry">Inquire About This Space</a>
+        <a class="btn-ghost" href="#schedule">Schedule A Showing</a>
+      </div>
+    </div>
+  </article>
 </section>
 
 <!-- BRAND STATEMENT -->
@@ -604,6 +758,21 @@
     });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
+
+  // Listing galleries — click a thumbnail to swap the main photo
+  document.querySelectorAll('.listing-thumbs').forEach(strip => {
+    const main = document.getElementById(strip.dataset.gallery);
+    if (!main) return;
+    strip.querySelectorAll('.listing-thumb').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const img = btn.querySelector('img');
+        main.src = img.getAttribute('src');
+        main.alt = img.getAttribute('alt');
+        strip.querySelectorAll('.listing-thumb').forEach(b => b.removeAttribute('aria-current'));
+        btn.setAttribute('aria-current', 'true');
+      });
+    });
+  });
 </script>
 </body>
 </html>
